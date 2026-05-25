@@ -1,467 +1,479 @@
-import React, { useState } from 'react';
-import { 
-  Stethoscope, 
-  BookOpen, 
-  Users, 
-  Briefcase, 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Instagram, 
-  Facebook, 
-  Linkedin, 
-  Menu, 
-  X, 
-  ChevronRight,
-  HeartPulse
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academia Integra | Salud, Educación e Inclusión</title>
+    <!-- Tailwind CSS (CDN para que funcione sin compilar) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Íconos de Lucide (CDN) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-[#FAF9F5] font-sans text-slate-800 overflow-x-hidden">
 
-// --- Componentes Reutilizables ---
-
-// Recreación del Logo de Academia Integra en SVG
-const LogoIcon = ({ className = "w-12 h-12" }) => (
-  <svg viewBox="0 0 100 100" className={className} xmlns="http://www.w3.org/2000/svg">
-    {/* Cabeza - Azul */}
-    <circle cx="50" cy="22" r="11" fill="#0C87D8" />
-    {/* Cuerpo Izquierdo - Verde */}
-    <path d="M 47,90 C 15,85 10,35 25,25 C 35,40 43,60 47,90 Z" fill="#099468" />
-    {/* Cuerpo Derecho - Amarillo/Dorado */}
-    <path d="M 53,90 C 85,85 90,35 75,25 C 65,40 57,60 53,90 Z" fill="#DFA32B" />
-  </svg>
-);
-
-// Icono personalizado para TikTok
-const TikTokIcon = ({ className = "w-6 h-6" }) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
-    <path d="M12.525.02c1.31-.02 2.61-.01 3.91.04.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v7.2c0 1.96-.5 3.96-1.6 5.56-1.5 2.22-3.8 3.56-6.4 3.78-2.6.22-5.3-.35-7.3-2.05-2.04-1.7-3.1-4.2-2.9-6.8.18-2.6 1.5-5 3.5-6.5 2.05-1.5 4.6-2.1 7.1-1.6v4.06c-1.04-.3-2.1-.2-3.05.2-.95.4-1.7 1.1-2.1 2.04-.4 1-.4 2.15.1 3.1.5 1 1.4 1.7 2.4 2 1 .3 2.1.2 3.1-.2.95-.4 1.7-1.1 2.1-2.04.4-1 .3-2.1-.2-3.1V.02z"/>
-  </svg>
-);
-
-export default function App() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
-
-  return (
-    <div className="min-h-screen bg-[#FAF9F5] font-sans text-slate-800 overflow-x-hidden">
-      
-      {/* Navegación */}
-      <nav className="fixed w-full bg-[#FAF9F5]/90 backdrop-blur-md z-50 shadow-sm border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            {/* Logo */}
-            <div className="flex items-center gap-3 cursor-pointer">
-              <LogoIcon className="w-10 h-10 md:w-12 md:h-12" />
-              <div className="flex flex-col">
-                <span className="text-[0.6rem] md:text-xs tracking-[0.3em] font-medium text-slate-500 leading-none mb-1">ACADEMIA</span>
-                <span className="text-xl md:text-2xl font-bold tracking-widest text-[#5A4B7C] leading-none">INTEGRA</span>
-              </div>
-            </div>
-
-            {/* Menú Desktop */}
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#inicio" className="text-slate-600 hover:text-[#099468] transition-colors font-medium">Inicio</a>
-              <a href="#servicios" className="text-slate-600 hover:text-[#099468] transition-colors font-medium">Servicios</a>
-              <a href="#nosotros" className="text-slate-600 hover:text-[#099468] transition-colors font-medium">Nosotros</a>
-              <a href="#contacto" className="bg-[#5A4B7C] hover:bg-[#4a3e66] text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-md hover:shadow-lg">
-                Contáctanos
-              </a>
-            </div>
-
-            {/* Botón Menú Móvil */}
-            <div className="md:hidden flex items-center">
-              <button onClick={toggleMenu} className="text-slate-600 hover:text-[#5A4B7C] focus:outline-none p-2">
-                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Menú Móvil Desplegable */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-slate-100 shadow-xl absolute w-full left-0">
-            <div className="px-4 pt-2 pb-6 space-y-2">
-              <a href="#inicio" onClick={toggleMenu} className="block px-3 py-3 text-slate-700 hover:bg-slate-50 hover:text-[#099468] rounded-md font-medium">Inicio</a>
-              <a href="#servicios" onClick={toggleMenu} className="block px-3 py-3 text-slate-700 hover:bg-slate-50 hover:text-[#099468] rounded-md font-medium">Servicios</a>
-              <a href="#nosotros" onClick={toggleMenu} className="block px-3 py-3 text-slate-700 hover:bg-slate-50 hover:text-[#099468] rounded-md font-medium">Nosotros</a>
-              <a href="#contacto" onClick={toggleMenu} className="block w-full text-center mt-4 bg-[#5A4B7C] text-white px-3 py-3 rounded-full font-medium shadow-md">
-                Contáctanos
-              </a>
-            </div>
-          </div>
-        )}
-      </nav>
-
-      {/* Hero Section */}
-      <section id="inicio" className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#099468]/10 blur-[100px]"></div>
-          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#DFA32B]/10 blur-[100px]"></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            
-            {/* Columna Izquierda: Texto */}
-            <div className="text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-slate-100 mb-8 animate-fade-in-up">
-                <span className="flex h-2 w-2 rounded-full bg-[#0C87D8]"></span>
-                <span className="text-sm font-medium text-slate-600">Salud, Educación e Inclusión</span>
-              </div>
-              
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#5A4B7C] tracking-tight leading-tight mb-6">
-                Transformando el bienestar con <span className="text-[#099468]">atención integral</span>
-              </h1>
-              
-              <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                En Academia Integra unimos la excelencia clínica en rehabilitación con la educación y capacitación profesional de primer nivel, creando espacios inclusivos para todos.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
-                <a href="#servicios" className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#099468] text-white font-semibold text-lg hover:bg-[#077a56] transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 flex justify-center items-center gap-2">
-                  Nuestros Servicios
-                  <ChevronRight className="w-5 h-5" />
-                </a>
-                <a href="#contacto" className="w-full sm:w-auto px-8 py-4 rounded-full bg-white text-[#5A4B7C] border-2 border-[#5A4B7C] font-semibold text-lg hover:bg-[#5A4B7C] hover:text-white transition-all flex justify-center items-center">
-                  Agendar Cita
-                </a>
-              </div>
-            </div>
-
-            {/* Columna Derecha: Imagen */}
-            <div className="relative mx-auto w-full max-w-md lg:max-w-full mt-10 lg:mt-0">
-              {/* Elementos decorativos de fondo */}
-              <div className="absolute -top-6 -right-6 w-32 h-32 bg-[#DFA32B] rounded-full opacity-20 blur-2xl"></div>
-              <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-[#099468] rounded-full opacity-20 blur-2xl"></div>
-              
-              {/* Contenedor de la Imagen */}
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform transition-transform hover:scale-[1.02] duration-500">
-                <img 
-                  src="https://images.unsplash.com/photo-1576091160550-2173ff9e5fe3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                  alt="Servicios de fisioterapia y rehabilitación" 
-                  className="w-full h-[350px] md:h-[450px] lg:h-[550px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#5A4B7C]/30 to-transparent"></div>
-              </div>
-              
-              {/* Tarjeta Flotante Decorativa */}
-              <div className="absolute -bottom-6 right-4 lg:-left-8 lg:bottom-12 bg-white p-4 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce" style={{ animationDuration: '3s' }}>
-                <div className="w-12 h-12 rounded-full bg-[#099468]/10 flex items-center justify-center">
-                  <HeartPulse className="w-6 h-6 text-[#099468]" />
+    <!-- Navegación -->
+    <nav class="fixed w-full bg-[#FAF9F5]/90 backdrop-blur-md z-50 shadow-sm border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-3 cursor-pointer">
+                    <svg viewBox="0 0 100 100" class="w-10 h-10 md:w-12 md:h-12" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="22" r="11" fill="#0C87D8" />
+                        <path d="M 47,90 C 15,85 10,35 25,25 C 35,40 43,60 47,90 Z" fill="#099468" />
+                        <path d="M 53,90 C 85,85 90,35 75,25 C 65,40 57,60 53,90 Z" fill="#DFA32B" />
+                    </svg>
+                    <div class="flex flex-col">
+                        <span class="text-[0.6rem] md:text-xs tracking-[0.3em] font-medium text-slate-500 leading-none mb-1">ACADEMIA</span>
+                        <span class="text-xl md:text-2xl font-bold tracking-widest text-[#5A4B7C] leading-none">INTEGRA</span>
+                    </div>
                 </div>
+
+                <!-- Menú Desktop -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#inicio" class="text-slate-600 hover:text-[#099468] transition-colors font-medium">Inicio</a>
+                    <a href="#servicios" class="text-slate-600 hover:text-[#099468] transition-colors font-medium">Servicios</a>
+                    <a href="#nosotros" class="text-slate-600 hover:text-[#099468] transition-colors font-medium">Nosotros</a>
+                    <a href="#contacto" class="bg-[#5A4B7C] hover:bg-[#4a3e66] text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-md hover:shadow-lg">
+                        Contáctanos
+                    </a>
+                </div>
+
+                <!-- Botón Menú Móvil -->
+                <div class="md:hidden flex items-center">
+                    <button id="menu-btn" class="text-slate-600 hover:text-[#5A4B7C] focus:outline-none p-2">
+                        <i data-lucide="menu" id="icon-menu" class="w-6 h-6"></i>
+                        <i data-lucide="x" id="icon-close" class="w-6 h-6 hidden"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú Móvil Desplegable -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 shadow-xl absolute w-full left-0">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#inicio" class="mobile-link block px-3 py-3 text-slate-700 hover:bg-slate-50 hover:text-[#099468] rounded-md font-medium">Inicio</a>
+                <a href="#servicios" class="mobile-link block px-3 py-3 text-slate-700 hover:bg-slate-50 hover:text-[#099468] rounded-md font-medium">Servicios</a>
+                <a href="#nosotros" class="mobile-link block px-3 py-3 text-slate-700 hover:bg-slate-50 hover:text-[#099468] rounded-md font-medium">Nosotros</a>
+                <a href="#contacto" class="mobile-link block w-full text-center mt-4 bg-[#5A4B7C] text-white px-3 py-3 rounded-full font-medium shadow-md">
+                    Contáctanos
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+            <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#099468]/10 blur-[100px]"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#DFA32B]/10 blur-[100px]"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- Columna Izquierda: Texto -->
+                <div class="text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-slate-100 mb-8 animate-fade-in-up">
+                        <span class="flex h-2 w-2 rounded-full bg-[#0C87D8]"></span>
+                        <span class="text-sm font-medium text-slate-600">Salud, Educación e Inclusión</span>
+                    </div>
+                    
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#5A4B7C] tracking-tight leading-tight mb-6">
+                        Transformando el bienestar con <span class="text-[#099468]">atención integral</span>
+                    </h1>
+                    
+                    <p class="text-lg md:text-xl text-slate-600 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                        En Academia Integra unimos la excelencia clínica en rehabilitación con la educación y capacitación profesional de primer nivel, creando espacios inclusivos para todos.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
+                        <a href="#servicios" class="w-full sm:w-auto px-8 py-4 rounded-full bg-[#099468] text-white font-semibold text-lg hover:bg-[#077a56] transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 flex justify-center items-center gap-2">
+                            Nuestros Servicios
+                            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#contacto" class="w-full sm:w-auto px-8 py-4 rounded-full bg-white text-[#5A4B7C] border-2 border-[#5A4B7C] font-semibold text-lg hover:bg-[#5A4B7C] hover:text-white transition-all flex justify-center items-center">
+                            Agendar Cita
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Imagen -->
+                <div class="relative mx-auto w-full max-w-md lg:max-w-full mt-10 lg:mt-0">
+                    <div class="absolute -top-6 -right-6 w-32 h-32 bg-[#DFA32B] rounded-full opacity-20 blur-2xl"></div>
+                    <div class="absolute -bottom-6 -left-6 w-40 h-40 bg-[#099468] rounded-full opacity-20 blur-2xl"></div>
+                    
+                    <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform transition-transform hover:scale-[1.02] duration-500">
+                        <img 
+                            src="https://images.unsplash.com/photo-1576091160550-2173ff9e5fe3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                            alt="Servicios de fisioterapia y rehabilitación" 
+                            class="w-full h-[350px] md:h-[450px] lg:h-[550px] object-cover"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#5A4B7C]/30 to-transparent"></div>
+                    </div>
+                    
+                    <!-- Tarjeta Flotante Decorativa -->
+                    <div class="absolute -bottom-6 right-4 lg:-left-8 lg:bottom-12 bg-white p-4 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce" style="animation-duration: 3s">
+                        <div class="w-12 h-12 rounded-full bg-[#099468]/10 flex items-center justify-center">
+                            <i data-lucide="heart-pulse" class="w-6 h-6 text-[#099468]"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-800">Atención Especializada</p>
+                            <p class="text-xs text-slate-500">Profesionales certificados</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios Section -->
+    <section id="servicios" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#5A4B7C] mb-4">Servicios Especializados</h2>
+                <div class="w-24 h-1 bg-[#DFA32B] mx-auto rounded-full mb-6"></div>
+                <p class="text-slate-600 max-w-2xl mx-auto text-lg">
+                    Ofrecemos soluciones integrales adaptadas a las necesidades de pacientes, estudiantes, profesionales y empresas.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Servicio 1 -->
+                <div class="bg-[#FAF9F5] rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="w-16 h-16 rounded-2xl bg-[#099468]/10 flex items-center justify-center mb-6 group-hover:bg-[#099468] transition-colors duration-300">
+                        <i data-lucide="heart-pulse" class="w-8 h-8 text-[#099468] group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3 leading-tight">Fisioterapia y Rehabilitación</h3>
+                    <p class="text-slate-600 mb-6">
+                        Tratamientos personalizados para recuperar tu movilidad, aliviar el dolor y mejorar tu calidad de vida con profesionales expertos.
+                    </p>
+                    <a href="#contacto" class="text-[#099468] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+                        Saber más <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Servicio 2 -->
+                <div class="bg-[#FAF9F5] rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="w-16 h-16 rounded-2xl bg-[#0C87D8]/10 flex items-center justify-center mb-6 group-hover:bg-[#0C87D8] transition-colors duration-300">
+                        <i data-lucide="book-open" class="w-8 h-8 text-[#0C87D8] group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3 leading-tight">Capacitación a Profesionales</h3>
+                    <p class="text-slate-600 mb-6">
+                        Programas de actualización y formación continua dirigidos a estudiantes y profesionales del área de la salud.
+                    </p>
+                    <a href="#contacto" class="text-[#0C87D8] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+                        Saber más <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Servicio 3 -->
+                <div class="bg-[#FAF9F5] rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="w-16 h-16 rounded-2xl bg-[#DFA32B]/10 flex items-center justify-center mb-6 group-hover:bg-[#DFA32B] transition-colors duration-300">
+                        <i data-lucide="users" class="w-8 h-8 text-[#DFA32B] group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3 leading-tight">Inclusión y Educación</h3>
+                    <p class="text-slate-600 mb-6">
+                        Actividades, talleres y estrategias de educación inclusiva diseñadas para integrar y empoderar a la comunidad.
+                    </p>
+                    <a href="#contacto" class="text-[#DFA32B] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+                        Saber más <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Servicio 4 -->
+                <div class="bg-[#FAF9F5] rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="w-16 h-16 rounded-2xl bg-[#5A4B7C]/10 flex items-center justify-center mb-6 group-hover:bg-[#5A4B7C] transition-colors duration-300">
+                        <i data-lucide="briefcase" class="w-8 h-8 text-[#5A4B7C] group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3 leading-tight">Salud Ocupacional Empresarial</h3>
+                    <p class="text-slate-600 mb-6">
+                        Capacitaciones preventivas y programas de ergonomía para proteger el bienestar del talento humano en tu empresa.
+                    </p>
+                    <a href="#contacto" class="text-[#5A4B7C] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+                        Saber más <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nosotros Section -->
+    <section id="nosotros" class="py-20 bg-[#FAF9F5]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#5A4B7C] mb-4">Nuestro Equipo</h2>
+                <div class="w-24 h-1 bg-[#099468] mx-auto rounded-full mb-6"></div>
+                <p class="text-slate-600 max-w-2xl mx-auto text-lg">
+                    Conoce a los profesionales líderes apasionados por tu bienestar, recuperación y aprendizaje.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+                <!-- Perfil 1: Daniel Espinoza -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-slate-100 group">
+                    <div class="h-64 bg-slate-200 overflow-hidden relative">
+                        <img 
+                            src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                            alt="Daniel Espinoza" 
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 object-top" 
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                    </div>
+                    <div class="p-8 text-center -mt-12 relative z-10">
+                        <div class="bg-white w-24 h-24 mx-auto rounded-full flex items-center justify-center shadow-lg mb-4">
+                            <i data-lucide="stethoscope" class="w-10 h-10 text-[#099468]"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-[#5A4B7C] mb-1">Lic. Daniel Espinoza</h3>
+                        <p class="text-[#099468] font-bold tracking-wide text-sm uppercase mb-4">Fisioterapeuta Acupunturista</p>
+                        <p class="text-slate-600 leading-relaxed">
+                            Especialista en técnicas de rehabilitación integral y medicina tradicional china (acupuntura) para el alivio profundo del dolor y la recuperación funcional de los pacientes.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Perfil 2: Keyla Zurita -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-slate-100 group">
+                    <div class="h-64 bg-slate-200 overflow-hidden relative">
+                        <img 
+                            src="https://images.unsplash.com/photo-1594824436951-7f12bc41553a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                            alt="Keyla Zurita" 
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 object-top" 
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                    </div>
+                    <div class="p-8 text-center -mt-12 relative z-10">
+                        <div class="bg-white w-24 h-24 mx-auto rounded-full flex items-center justify-center shadow-lg mb-4">
+                            <i data-lucide="briefcase" class="w-10 h-10 text-[#0C87D8]"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-[#5A4B7C] mb-1">MSc. Keyla Zurita</h3>
+                        <p class="text-[#0C87D8] font-bold tracking-wide text-sm uppercase mb-4">Fisioterapeuta, Master en Salud Ocupacional</p>
+                        <p class="text-slate-600 leading-relaxed">
+                            Experta en prevención de riesgos laborales, ergonomía y rehabilitación física. Enfocada en mejorar la calidad de vida en el entorno de trabajo y la educación inclusiva.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info / Banner Section -->
+    <section class="py-16 bg-[#5A4B7C] text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="md:w-2/3 text-center md:text-left">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-4">¿Listo para dar el siguiente paso hacia tu bienestar?</h2>
+                    <p class="text-[#E2DDF0] text-lg">Nuestro equipo de especialistas está listo para evaluarte y diseñar un plan a tu medida.</p>
+                </div>
+                <div class="md:w-1/3 flex justify-center md:justify-end">
+                    <a href="https://wa.me/593999431636" target="_blank" rel="noopener noreferrer" class="bg-[#DFA32B] hover:bg-[#c99124] text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        Escríbenos por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto Section -->
+    <section id="contacto" class="py-20 bg-[#FAF9F5]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
+                <!-- Formulario/Info -->
                 <div>
-                  <p className="text-sm font-bold text-slate-800">Atención Especializada</p>
-                  <p className="text-xs text-slate-500">Profesionales certificados</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#5A4B7C] mb-6">Comunícate con nosotros</h2>
+                    <p class="text-slate-600 mb-10 text-lg">
+                        Visítanos en nuestras instalaciones o contáctanos por nuestros canales digitales. ¡Estamos para ayudarte!
+                    </p>
+
+                    <div class="space-y-8">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-[#099468]/10 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="map-pin" class="w-6 h-6 text-[#099468]"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-slate-800 mb-1">Dirección</h4>
+                                <p class="text-slate-600">Urdesa Central, Calle Primera #221 y Cedros<br/>Guayaquil, Ecuador</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-[#0C87D8]/10 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="phone" class="w-6 h-6 text-[#0C87D8]"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-slate-800 mb-1">Teléfono</h4>
+                                <a href="tel:0999431636" class="text-slate-600 hover:text-[#0C87D8] transition-colors">0999 431 636</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-[#DFA32B]/10 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="mail" class="w-6 h-6 text-[#DFA32B]"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-slate-800 mb-1">Correo Electrónico</h4>
+                                <a href="mailto:contacto@integra.rehab" class="text-slate-600 hover:text-[#DFA32B] transition-colors">contacto@integra.rehab</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Redes Sociales Info Card -->
+                    <div class="mt-10 p-6 bg-white rounded-2xl shadow-sm border border-slate-100 flex flex-col sm:flex-row items-center gap-6">
+                        <p class="font-semibold text-slate-700 text-center sm:text-left">Síguenos en nuestras redes:</p>
+                        <div class="flex gap-4">
+                            <a href="https://instagram.com/integra.rehab" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-500 hover:text-white transition-all">
+                                <i data-lucide="instagram" class="w-5 h-5"></i>
+                            </a>
+                            <a href="https://tiktok.com/@integra.rehab" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-black hover:text-white transition-all">
+                                <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91.04.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v7.2c0 1.96-.5 3.96-1.6 5.56-1.5 2.22-3.8 3.56-6.4 3.78-2.6.22-5.3-.35-7.3-2.05-2.04-1.7-3.1-4.2-2.9-6.8.18-2.6 1.5-5 3.5-6.5 2.05-1.5 4.6-2.1 7.1-1.6v4.06c-1.04-.3-2.1-.2-3.05.2-.95.4-1.7 1.1-2.1 2.04-.4 1-.4 2.15.1 3.1.5 1 1.4 1.7 2.4 2 1 .3 2.1.2 3.1-.2.95-.4 1.7-1.1 2.1-2.04.4-1 .3-2.1-.2-3.1V.02z"/>
+                                </svg>
+                            </a>
+                            <a href="https://facebook.com/integrarehab" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-blue-600 hover:text-white transition-all">
+                                <i data-lucide="facebook" class="w-5 h-5"></i>
+                            </a>
+                            <a href="https://linkedin.com/company/integrarehab" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-blue-700 hover:text-white transition-all">
+                                <i data-lucide="linkedin" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
 
-          </div>
-        </div>
-      </section>
-
-      {/* Servicios Section */}
-      <section id="servicios" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#5A4B7C] mb-4">Servicios Especializados</h2>
-            <div className="w-24 h-1 bg-[#DFA32B] mx-auto rounded-full mb-6"></div>
-            <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-              Ofrecemos soluciones integrales adaptadas a las necesidades de pacientes, estudiantes, profesionales y empresas.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Servicio 1 */}
-            <div className="bg-[#FAF9F5] rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
-              <div className="w-16 h-16 rounded-2xl bg-[#099468]/10 flex items-center justify-center mb-6 group-hover:bg-[#099468] transition-colors duration-300">
-                <HeartPulse className="w-8 h-8 text-[#099468] group-hover:text-white transition-colors duration-300" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-800 mb-3 leading-tight">Fisioterapia y Rehabilitación</h3>
-              <p className="text-slate-600 mb-6">
-                Tratamientos personalizados para recuperar tu movilidad, aliviar el dolor y mejorar tu calidad de vida con profesionales expertos.
-              </p>
-              <a href="#contacto" className="text-[#099468] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-                Saber más <ChevronRight className="w-4 h-4" />
-              </a>
-            </div>
-
-            {/* Servicio 2 */}
-            <div className="bg-[#FAF9F5] rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
-              <div className="w-16 h-16 rounded-2xl bg-[#0C87D8]/10 flex items-center justify-center mb-6 group-hover:bg-[#0C87D8] transition-colors duration-300">
-                <BookOpen className="w-8 h-8 text-[#0C87D8] group-hover:text-white transition-colors duration-300" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-800 mb-3 leading-tight">Capacitación a Profesionales</h3>
-              <p className="text-slate-600 mb-6">
-                Programas de actualización y formación continua dirigidos a estudiantes y profesionales del área de la salud.
-              </p>
-              <a href="#contacto" className="text-[#0C87D8] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-                Saber más <ChevronRight className="w-4 h-4" />
-              </a>
-            </div>
-
-            {/* Servicio 3 */}
-            <div className="bg-[#FAF9F5] rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
-              <div className="w-16 h-16 rounded-2xl bg-[#DFA32B]/10 flex items-center justify-center mb-6 group-hover:bg-[#DFA32B] transition-colors duration-300">
-                <Users className="w-8 h-8 text-[#DFA32B] group-hover:text-white transition-colors duration-300" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-800 mb-3 leading-tight">Inclusión y Educación</h3>
-              <p className="text-slate-600 mb-6">
-                Actividades, talleres y estrategias de educación inclusiva diseñadas para integrar y empoderar a la comunidad.
-              </p>
-              <a href="#contacto" className="text-[#DFA32B] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-                Saber más <ChevronRight className="w-4 h-4" />
-              </a>
-            </div>
-
-            {/* Servicio 4 */}
-            <div className="bg-[#FAF9F5] rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
-              <div className="w-16 h-16 rounded-2xl bg-[#5A4B7C]/10 flex items-center justify-center mb-6 group-hover:bg-[#5A4B7C] transition-colors duration-300">
-                <Briefcase className="w-8 h-8 text-[#5A4B7C] group-hover:text-white transition-colors duration-300" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-800 mb-3 leading-tight">Salud Ocupacional Empresarial</h3>
-              <p className="text-slate-600 mb-6">
-                Capacitaciones preventivas y programas de ergonomía para proteger el bienestar del talento humano en tu empresa.
-              </p>
-              <a href="#contacto" className="text-[#5A4B7C] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-                Saber más <ChevronRight className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Nosotros Section */}
-      <section id="nosotros" className="py-20 bg-[#FAF9F5]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#5A4B7C] mb-4">Nuestro Equipo</h2>
-            <div className="w-24 h-1 bg-[#099468] mx-auto rounded-full mb-6"></div>
-            <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-              Conoce a los profesionales líderes apasionados por tu bienestar, recuperación y aprendizaje.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            {/* Perfil 1: Daniel Espinoza */}
-            <div className="bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-slate-100 group">
-              <div className="h-64 bg-slate-200 overflow-hidden relative">
-                 <img 
-                   src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                   alt="Daniel Espinoza" 
-                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 object-top" 
-                 />
-                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
-              </div>
-              <div className="p-8 text-center -mt-12 relative z-10">
-                <div className="bg-white w-24 h-24 mx-auto rounded-full flex items-center justify-center shadow-lg mb-4">
-                  <Stethoscope className="w-10 h-10 text-[#099468]" />
+                <!-- Mapa Placeholder -->
+                <div class="relative h-[400px] lg:h-full min-h-[400px] rounded-3xl overflow-hidden shadow-lg border-4 border-white bg-slate-200">
+                    <div class="absolute inset-0 bg-slate-200 flex flex-col items-center justify-center">
+                        <i data-lucide="map-pin" class="w-16 h-16 text-slate-400 mb-4"></i>
+                        <p class="text-slate-500 font-medium">Mapa Interactivo</p>
+                        <p class="text-slate-400 text-sm mt-2 text-center px-6">Urdesa Central, Calle Primera #221 y Cedros</p>
+                    </div>
                 </div>
-                <h3 className="text-2xl font-bold text-[#5A4B7C] mb-1">Lic. Daniel Espinoza</h3>
-                <p className="text-[#099468] font-bold tracking-wide text-sm uppercase mb-4">Fisioterapeuta Acupunturista</p>
-                <p className="text-slate-600 leading-relaxed">
-                  Especialista en técnicas de rehabilitación integral y medicina tradicional china (acupuntura) para el alivio profundo del dolor y la recuperación funcional de los pacientes.
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                
+                <!-- Columna 1 -->
+                <div class="flex flex-col items-center md:items-start">
+                    <div class="flex items-center gap-3 mb-6 opacity-90 grayscale hover:grayscale-0 transition-all cursor-pointer">
+                        <svg viewBox="0 0 100 100" class="w-10 h-10" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="22" r="11" fill="#0C87D8" />
+                            <path d="M 47,90 C 15,85 10,35 25,25 C 35,40 43,60 47,90 Z" fill="#099468" />
+                            <path d="M 53,90 C 85,85 90,35 75,25 C 65,40 57,60 53,90 Z" fill="#DFA32B" />
+                        </svg>
+                        <div class="flex flex-col">
+                            <span class="text-[0.6rem] tracking-[0.3em] font-medium text-slate-400 leading-none mb-1">ACADEMIA</span>
+                            <span class="text-xl font-bold tracking-widest text-white leading-none">INTEGRA</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-400 text-center md:text-left max-w-xs">
+                        Centro especializado en rehabilitación, formación profesional continua y salud ocupacional empresarial.
+                    </p>
+                </div>
+
+                <!-- Columna 2 -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h4 class="text-white font-bold mb-6 text-lg">Enlaces Rápidos</h4>
+                    <ul class="space-y-3 text-center md:text-left">
+                        <li><a href="#inicio" class="hover:text-[#099468] transition-colors">Inicio</a></li>
+                        <li><a href="#servicios" class="hover:text-[#099468] transition-colors">Nuestros Servicios</a></li>
+                        <li><a href="#nosotros" class="hover:text-[#099468] transition-colors">Sobre Nosotros</a></li>
+                        <li><a href="#contacto" class="hover:text-[#099468] transition-colors">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 3 -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h4 class="text-white font-bold mb-6 text-lg">Contacto Directo</h4>
+                    <ul class="space-y-3 text-sm text-center md:text-left">
+                        <li>Urdesa Central, Calle Primera #221 y Cedros</li>
+                        <li>Guayaquil, Ecuador</li>
+                        <li class="text-[#099468] font-semibold mt-2">0999 431 636</li>
+                        <li class="text-[#DFA32B]">contacto@integra.rehab</li>
+                    </ul>
+                </div>
+                
+            </div>
+
+            <div class="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-sm text-slate-500">
+                    © <span id="year"></span> Academia Integra. Todos los derechos reservados.
                 </p>
-              </div>
-            </div>
-
-            {/* Perfil 2: Keyla Zurita */}
-            <div className="bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-slate-100 group">
-              <div className="h-64 bg-slate-200 overflow-hidden relative">
-                 <img 
-                   src="https://images.unsplash.com/photo-1594824436951-7f12bc41553a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                   alt="Keyla Zurita" 
-                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 object-top" 
-                 />
-                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
-              </div>
-              <div className="p-8 text-center -mt-12 relative z-10">
-                <div className="bg-white w-24 h-24 mx-auto rounded-full flex items-center justify-center shadow-lg mb-4">
-                  <Briefcase className="w-10 h-10 text-[#0C87D8]" />
+                <div class="flex gap-4">
+                    <a href="https://instagram.com/integra.rehab" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-500 hover:text-white transition-all">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </a>
+                    <a href="https://tiktok.com/@integra.rehab" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-black hover:text-white transition-all">
+                        <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.525.02c1.31-.02 2.61-.01 3.91.04.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v7.2c0 1.96-.5 3.96-1.6 5.56-1.5 2.22-3.8 3.56-6.4 3.78-2.6.22-5.3-.35-7.3-2.05-2.04-1.7-3.1-4.2-2.9-6.8.18-2.6 1.5-5 3.5-6.5 2.05-1.5 4.6-2.1 7.1-1.6v4.06c-1.04-.3-2.1-.2-3.05.2-.95.4-1.7 1.1-2.1 2.04-.4 1-.4 2.15.1 3.1.5 1 1.4 1.7 2.4 2 1 .3 2.1.2 3.1-.2.95-.4 1.7-1.1 2.1-2.04.4-1 .3-2.1-.2-3.1V.02z"/>
+                        </svg>
+                    </a>
+                    <a href="https://facebook.com/integrarehab" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white transition-all">
+                        <i data-lucide="facebook" class="w-5 h-5"></i>
+                    </a>
+                    <a href="https://linkedin.com/company/integrarehab" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-blue-700 hover:text-white transition-all">
+                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    </a>
                 </div>
-                <h3 className="text-2xl font-bold text-[#5A4B7C] mb-1">MSc. Keyla Zurita</h3>
-                <p className="text-[#0C87D8] font-bold tracking-wide text-sm uppercase mb-4">Fisioterapeuta, Master en Salud Ocupacional</p>
-                <p className="text-slate-600 leading-relaxed">
-                  Experta en prevención de riesgos laborales, ergonomía y rehabilitación física. Enfocada en mejorar la calidad de vida en el entorno de trabajo y la educación inclusiva.
-                </p>
-              </div>
             </div>
-          </div>
         </div>
-      </section>
+    </footer>
 
-      {/* Info / Banner Section */}
-      <section className="py-16 bg-[#5A4B7C] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="md:w-2/3 text-center md:text-left">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">¿Listo para dar el siguiente paso hacia tu bienestar?</h2>
-              <p className="text-[#E2DDF0] text-lg">Nuestro equipo de especialistas está listo para evaluarte y diseñar un plan a tu medida.</p>
-            </div>
-            <div className="md:w-1/3 flex justify-center md:justify-end">
-              <a href="https://wa.me/593999431636" target="_blank" rel="noopener noreferrer" className="bg-[#DFA32B] hover:bg-[#c99124] text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                Escríbenos por WhatsApp
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contacto Section */}
-      <section id="contacto" className="py-20 bg-[#FAF9F5]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            
-            {/* Formulario/Info */}
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#5A4B7C] mb-6">Comunícate con nosotros</h2>
-              <p className="text-slate-600 mb-10 text-lg">
-                Visítanos en nuestras instalaciones o contáctanos por nuestros canales digitales. ¡Estamos para ayudarte!
-              </p>
-
-              <div className="space-y-8">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-[#099468]/10 flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-[#099468]" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-bold text-slate-800 mb-1">Dirección</h4>
-                    <p className="text-slate-600">Urdesa Central, Calle Primera #221 y Cedros<br/>Guayaquil, Ecuador</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-[#0C87D8]/10 flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-[#0C87D8]" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-bold text-slate-800 mb-1">Teléfono</h4>
-                    <a href="tel:0999431636" className="text-slate-600 hover:text-[#0C87D8] transition-colors">0999 431 636</a>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-[#DFA32B]/10 flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6 text-[#DFA32B]" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-bold text-slate-800 mb-1">Correo Electrónico</h4>
-                    <a href="mailto:contacto@integra.rehab" className="text-slate-600 hover:text-[#DFA32B] transition-colors">contacto@integra.rehab</a>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Redes Sociales Info Card */}
-              <div className="mt-10 p-6 bg-white rounded-2xl shadow-sm border border-slate-100 flex flex-col sm:flex-row items-center gap-6">
-                <p className="font-semibold text-slate-700 text-center sm:text-left">Síguenos en nuestras redes:</p>
-                <div className="flex gap-4">
-                  <a href="https://instagram.com/integra.rehab" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-500 hover:text-white transition-all">
-                    <Instagram className="w-5 h-5" />
-                  </a>
-                  <a href="https://tiktok.com/@integra.rehab" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-black hover:text-white transition-all">
-                    <TikTokIcon className="w-5 h-5" />
-                  </a>
-                  <a href="https://facebook.com/integrarehab" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-blue-600 hover:text-white transition-all">
-                    <Facebook className="w-5 h-5" />
-                  </a>
-                  <a href="https://linkedin.com/company/integrarehab" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-blue-700 hover:text-white transition-all">
-                    <Linkedin className="w-5 h-5" />
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Mapa Placeholder */}
-            <div className="relative h-[400px] lg:h-full min-h-[400px] rounded-3xl overflow-hidden shadow-lg border-4 border-white bg-slate-200">
-              {/* En un entorno real, aquí iría un iframe de Google Maps. Usamos un placeholder atractivo. */}
-              <div className="absolute inset-0 bg-slate-200 flex flex-col items-center justify-center">
-                <MapPin className="w-16 h-16 text-slate-400 mb-4" />
-                <p className="text-slate-500 font-medium">Mapa Interactivo</p>
-                <p className="text-slate-400 text-sm mt-2 text-center px-6">Urdesa Central, Calle Primera #221 y Cedros</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-slate-900 text-slate-300 py-12 border-t border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            
-            {/* Columna 1 */}
-            <div className="flex flex-col items-center md:items-start">
-              <div className="flex items-center gap-3 mb-6 opacity-90 grayscale hover:grayscale-0 transition-all cursor-pointer">
-                <LogoIcon className="w-10 h-10" />
-                <div className="flex flex-col">
-                  <span className="text-[0.6rem] tracking-[0.3em] font-medium text-slate-400 leading-none mb-1">ACADEMIA</span>
-                  <span className="text-xl font-bold tracking-widest text-white leading-none">INTEGRA</span>
-                </div>
-              </div>
-              <p className="text-sm text-slate-400 text-center md:text-left max-w-xs">
-                Centro especializado en rehabilitación, formación profesional continua y salud ocupacional empresarial.
-              </p>
-            </div>
-
-            {/* Columna 2 */}
-            <div className="flex flex-col items-center md:items-start">
-              <h4 className="text-white font-bold mb-6 text-lg">Enlaces Rápidos</h4>
-              <ul className="space-y-3 text-center md:text-left">
-                <li><a href="#inicio" className="hover:text-[#099468] transition-colors">Inicio</a></li>
-                <li><a href="#servicios" className="hover:text-[#099468] transition-colors">Nuestros Servicios</a></li>
-                <li><a href="#nosotros" className="hover:text-[#099468] transition-colors">Sobre Nosotros</a></li>
-                <li><a href="#contacto" className="hover:text-[#099468] transition-colors">Contacto</a></li>
-              </ul>
-            </div>
-
-            {/* Columna 3 */}
-            <div className="flex flex-col items-center md:items-start">
-              <h4 className="text-white font-bold mb-6 text-lg">Contacto Directo</h4>
-              <ul className="space-y-3 text-sm text-center md:text-left">
-                <li>Urdesa Central, Calle Primera #221 y Cedros</li>
-                <li>Guayaquil, Ecuador</li>
-                <li className="text-[#099468] font-semibold mt-2">0999 431 636</li>
-                <li className="text-[#DFA32B]">contacto@integra.rehab</li>
-              </ul>
-            </div>
-            
-          </div>
-
-          <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-slate-500">
-              © {new Date().getFullYear()} Academia Integra. Todos los derechos reservados.
-            </p>
-            <div className="flex gap-4">
-              <a href="https://instagram.com/integra.rehab" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-500 hover:text-white transition-all">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="https://tiktok.com/@integra.rehab" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-black hover:text-white transition-all">
-                <TikTokIcon className="w-5 h-5" />
-              </a>
-              <a href="https://facebook.com/integrarehab" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white transition-all">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="https://linkedin.com/company/integrarehab" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-blue-700 hover:text-white transition-all">
-                <Linkedin className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* Botón Flotante de WhatsApp */}
-      <a 
+    <!-- Botón Flotante de WhatsApp -->
+    <a 
         href="https://wa.me/593999431636" 
         target="_blank" 
         rel="noopener noreferrer" 
-        className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 flex items-center justify-center"
+        class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 flex items-center justify-center"
         aria-label="Contactar por WhatsApp"
-      >
-        <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+    >
+        <svg viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
         </svg>
-      </a>
-    </div>
-  );
-}
+    </a>
+
+    <!-- Scripts para funcionalidad -->
+    <script>
+        // Inicializar iconos de Lucide
+        lucide.createIcons();
+        
+        // Poner el año actual en el footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Lógica del menú móvil
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const iconMenu = document.getElementById('icon-menu');
+        const iconClose = document.getElementById('icon-close');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+            iconMenu.classList.toggle('hidden');
+            iconClose.classList.toggle('hidden');
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+
+        // Cerrar menú al hacer clic en un enlace (móvil)
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+    </script>
+</body>
+</html>
